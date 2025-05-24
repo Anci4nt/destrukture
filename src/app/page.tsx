@@ -18,7 +18,7 @@ export default function Home() {
       </a>
     </li>
     <li>
-      <a href="#" className="transition duration-300 hover:text-green-400 hover:scale-110">
+      <a href="/team" className="transition duration-300 hover:text-green-400 hover:scale-110">
         Team
       </a>
     </li>
