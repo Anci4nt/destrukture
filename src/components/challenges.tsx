@@ -7,7 +7,6 @@ export default function Challenges() {
         "A social profile with simple HTML and CSS. This challenge is helpful for learning flexbox and grid.",
       imageUrl: "/social-profile.png",
     },
-    // Add more challenges as needed
   ];
 
   return (
