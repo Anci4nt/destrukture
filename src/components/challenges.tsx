@@ -2,7 +2,15 @@ export default function Challenges() {
   const challenges = [
     {
       title: "Portfolio",
-      tags: ["Framer", "idk"],
+      tags: ["Framer", "Hard"],
+      description:
+        "First Idk.",
+      imageUrl: "/images/project1.png",
+      link: "https://sociable-position-761303.framer.app",
+    },
+    {
+      title: "Portfolio",
+      tags: ["...", "..."],
       description:
         "First Idk.",
       imageUrl: "/images/project1.png",
@@ -58,7 +66,7 @@ export default function Challenges() {
                 ))}
               </div>
               <p className="text-gray-300 mb-4">{challenge.description}</p>
-              <a href="https://sociable-position-761303.framer.app">
+              <a href={challenge.link}>
               <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md text-white">
                 Get Started
               </button>
