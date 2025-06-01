@@ -1,14 +1,13 @@
-// src/app/api/posts/[id]/route.ts
 import { PrismaClient } from '@prisma/client'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
-  const postId = parseInt(params.id)
+  const postId = parseInt(context.params.id)
 
   if (isNaN(postId)) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
