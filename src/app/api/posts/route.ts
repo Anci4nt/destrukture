@@ -1,22 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function POST(req: NextRequest) {
+export async function GET() {
   try {
-    const body = await req.json()
-    const { title, content } = body
-
-    if (!title || !content) {
-      return NextResponse.json({ error: 'Missing title or content' }, { status: 400 })
-    }
-
-    const newPost = await prisma.post.create({
-      data: { title, content },
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: 'desc' },
     })
 
-    return NextResponse.json(newPost, { status: 201 })
-  } catch (error) {
-    console.error('[POST /api/posts] Error:', error)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json(posts)
+  } catch (err) {
+    console.error('[GET /api/posts] Error:', err)
+    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 })
   }
 }
