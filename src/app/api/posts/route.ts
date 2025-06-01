@@ -1,15 +1,22 @@
-import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
-const prisma = new PrismaClient()
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json()
+    const { title, content } = body
 
-export async function GET() {
-  const posts = await prisma.post.findMany({ orderBy: { createdAt: 'desc' } })
-  return NextResponse.json(posts)
-}
+    if (!title || !content) {
+      return NextResponse.json({ error: 'Missing title or content' }, { status: 400 })
+    }
 
-export async function POST(request: Request) {
-  const { title, content } = await request.json()
-  const newPost = await prisma.post.create({ data: { title, content } })
-  return NextResponse.json(newPost)
+    const newPost = await prisma.post.create({
+      data: { title, content },
+    })
+
+    return NextResponse.json(newPost, { status: 201 })
+  } catch (error) {
+    console.error('[POST /api/posts] Error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
 }
