@@ -1,20 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import type { NextApiRequest } from 'next'
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const postId = parseInt(params.id)
+type Context = {
+  params: {
+    id: string
+  }
+}
 
-  if (isNaN(postId)) {
+export async function DELETE(request: NextRequest, { params }: Context) {
+  const id = parseInt(params.id)
+
+  if (isNaN(id)) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   try {
-    await prisma.post.delete({ where: { id: postId } })
+    await prisma.post.delete({ where: { id } })
     return NextResponse.json({ message: 'Post deleted' }, { status: 200 })
-  } catch {
+  } catch (error) {
     return NextResponse.json({ error: 'Post not found' }, { status: 404 })
   }
 }
