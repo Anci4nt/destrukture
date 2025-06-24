@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { Trash2 } from 'lucide-react'
 
 type Article = {
   id: number
@@ -36,35 +37,38 @@ export default function Articles() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center">Latest Articles</h1>
+    <main className="max-w-5xl mx-auto px-4 py-10">
+      <h1 className="text-5xl font-bold text-center mb-12 text-gray-900">📰 Articles</h1>
+
       {articles.length === 0 ? (
-        <p className="text-gray-500 text-center">No articles posted yet.</p>
+        <p className="text-center text-gray-500 text-lg">No articles posted yet.</p>
       ) : (
-        <ul className="space-y-6">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
-            <li
+            <div
               key={article.id}
-              className="border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition"
+              className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between"
             >
-              <div className="flex items-start justify-between">
-                <Link href={`/articles/${article.id}`} className="flex-1">
-                  <h2 className="text-xl font-semibold text-blue-700 hover:underline">
+              <div className="flex-grow">
+                <Link href={`/articles/${article.id}`}>
+                  <h2 className="text-2xl font-semibold text-blue-700 hover:underline mb-2">
                     {article.title}
                   </h2>
-                  <p className="text-gray-700 mt-2 line-clamp-2">{article.content}</p>
+                  <p className="text-gray-700 text-sm line-clamp-3">{article.content}</p>
                 </Link>
-                <button
-                  onClick={() => handleDelete(article.id)}
-                  className="text-red-500 text-sm ml-4 hover:underline"
-                >
-                  Delete
-                </button>
               </div>
-            </li>
+
+              <button
+                onClick={() => handleDelete(article.id)}
+                className="flex items-center text-red-500 mt-4 text-sm hover:text-red-600"
+              >
+                <Trash2 size={16} className="mr-1" />
+                Delete
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
-    </div>
+    </main>
   )
 }
