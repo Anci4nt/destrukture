@@ -1,19 +1,32 @@
-let challenges: any[] = []
+
+import { prisma } from '@/lib/prisma'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
-  return new Response(JSON.stringify(challenges), { status: 200 })
+  const challenges = await prisma.challenge.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
+  return NextResponse.json(challenges)
 }
 
 export async function POST(req: Request) {
-  const { title, description, tags, imageUrl, link } = await req.json()
-  const newChallenge = {
-    id: Date.now(),
-    title,
-    description,
-    tags,
-    imageUrl,
-    link,
+  const body = await req.json()
+
+  const { title, description, tags, imageUrl, link } = body
+
+  if (!title || !description || !tags || !imageUrl) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
-  challenges.push(newChallenge)
-  return new Response(JSON.stringify(newChallenge), { status: 201 })
+
+  const challenge = await prisma.challenge.create({
+    data: {
+      title,
+      description,
+      tags,
+      imageUrl,
+      link,
+    },
+  })
+
+  return NextResponse.json(challenge, { status: 201 })
 }

@@ -13,3 +13,13 @@ model Post {
   content   String
   createdAt DateTime @default(now())
 }
+
+model Challenge {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  tags        String[]
+  imageUrl    String
+  link        String?
+  createdAt   DateTime @default(now())
+}
