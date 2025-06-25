@@ -1,9 +1,10 @@
 import { prisma } from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
+import type { NextApiRequest } from 'next' // optional, if using with fallback routes
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: any
 ) {
   const id = parseInt(params.id)
 
